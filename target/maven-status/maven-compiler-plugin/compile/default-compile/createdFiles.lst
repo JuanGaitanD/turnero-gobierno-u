@@ -1,0 +1,5 @@
+entity/turnos.class
+entity/usuarios.class
+com/turnero/TurneroApplication.class
+entity/turnos$Servicio.class
+entity/usuarios$Genero.class
