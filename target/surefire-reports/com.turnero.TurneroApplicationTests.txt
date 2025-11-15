@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.turnero.TurneroApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.759 s -- in com.turnero.TurneroApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.100 s -- in com.turnero.TurneroApplicationTests

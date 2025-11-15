@@ -1,0 +1,64 @@
+<section class="space-y-6" aria-labelledby="titulo-usuarios">
+	<h2 id="titulo-usuarios" class="text-2xl font-semibold text-brown-800">Usuarios</h2>
+
+	<div class="space-y-2" aria-live="polite">
+		<div *ngIf="loading()" class="text-sm text-brown-600">Cargando...</div>
+		<div *ngIf="error()" class="text-sm bg-brown-500 text-white px-3 py-1 rounded" role="alert">{{ error() }}</div>
+		<div *ngIf="success()" class="text-sm bg-brown-600 text-white px-3 py-1 rounded">{{ success() }}</div>
+	</div>
+
+	<form (ngSubmit)="guardar()" #f="ngForm" class="card space-y-4 max-w-xl" novalidate>
+		<div class="grid grid-cols-2 gap-4">
+			<div class="col-span-2">
+				<label class="block text-sm font-medium mb-1">DNI</label>
+				<input class="input" name="dni" [(ngModel)]="form.dni" required />
+			</div>
+			<div class="col-span-2">
+				<label class="block text-sm font-medium mb-1">Nombre completo</label>
+				<input class="input" name="nombreCompleto" [(ngModel)]="form.nombreCompleto" required />
+			</div>
+			<div>
+				<label class="block text-sm font-medium mb-1">Género</label>
+				<select class="input" name="genero" [(ngModel)]="form.genero" required>
+					<option value="H">Hombre</option>
+					<option value="M">Mujer</option>
+				</select>
+			</div>
+			<div>
+				<label class="block text-sm font-medium mb-1">Fecha nacimiento</label>
+				<input type="date" class="input" name="fechaNacimiento" [(ngModel)]="form.fechaNacimiento" required />
+			</div>
+		</div>
+		<div class="flex gap-3 items-center">
+			<button class="btn" type="submit" [disabled]="f.invalid || loading()">{{ editId ? 'Actualizar' : 'Crear' }}</button>
+			<button class="btn bg-brown-500 hover:bg-brown-600" type="button" (click)="reset()" *ngIf="editId">Cancelar</button>
+			<span *ngIf="f.invalid && f.touched" class="text-xs text-brown-600">Completa los campos requeridos.</span>
+		</div>
+	</form>
+
+	<div class="card overflow-auto" aria-label="Listado de usuarios">
+		<table class="table" role="table">
+			<thead>
+				<tr>
+					<th>DNI</th>
+					<th>Nombre</th>
+					<th>Edad</th>
+					<th>Género</th>
+					<th class="w-40">Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let u of usuarios()">
+					<td>{{ u.dni }}</td>
+					<td>{{ u.nombreCompleto }}</td>
+					<td>{{ u.edad }}</td>
+					<td>{{ u.genero }}</td>
+					<td class="space-x-2">
+						<button class="btn px-2 py-1 text-xs" (click)="editar(u)">Editar</button>
+						<button class="btn px-2 py-1 text-xs bg-brown-500 hover:bg-brown-600" (click)="eliminar(u)">Eliminar</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>

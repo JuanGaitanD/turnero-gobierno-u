@@ -1,3 +1,14 @@
-/home/jada/Documents/Turnero/src/main/java/com/turnero/TurneroApplication.java
-/home/jada/Documents/Turnero/src/main/java/entity/turnos.java
-/home/jada/Documents/Turnero/src/main/java/entity/usuarios.java
+C:\Users\naye0\Documents\universidad\springBoot\final\turnero-gobierno-u\src\main\java\com\turnero\TurneroApplication.java
+C:\Users\naye0\Documents\universidad\springBoot\final\turnero-gobierno-u\src\main\java\entity\config\WebConfig.java
+C:\Users\naye0\Documents\universidad\springBoot\final\turnero-gobierno-u\src\main\java\entity\controller\TurnoController.java
+C:\Users\naye0\Documents\universidad\springBoot\final\turnero-gobierno-u\src\main\java\entity\controller\UsuarioController.java
+C:\Users\naye0\Documents\universidad\springBoot\final\turnero-gobierno-u\src\main\java\entity\dto\TurnoRequestDTO.java
+C:\Users\naye0\Documents\universidad\springBoot\final\turnero-gobierno-u\src\main\java\entity\dto\TurnoResponseDTO.java
+C:\Users\naye0\Documents\universidad\springBoot\final\turnero-gobierno-u\src\main\java\entity\dto\UsuarioRequestDTO.java
+C:\Users\naye0\Documents\universidad\springBoot\final\turnero-gobierno-u\src\main\java\entity\dto\UsuarioResponseDTO.java
+C:\Users\naye0\Documents\universidad\springBoot\final\turnero-gobierno-u\src\main\java\entity\repository\TurnoRepository.java
+C:\Users\naye0\Documents\universidad\springBoot\final\turnero-gobierno-u\src\main\java\entity\repository\UsuarioRepository.java
+C:\Users\naye0\Documents\universidad\springBoot\final\turnero-gobierno-u\src\main\java\entity\service\TurnoService.java
+C:\Users\naye0\Documents\universidad\springBoot\final\turnero-gobierno-u\src\main\java\entity\service\UsuarioService.java
+C:\Users\naye0\Documents\universidad\springBoot\final\turnero-gobierno-u\src\main\java\entity\turnos.java
+C:\Users\naye0\Documents\universidad\springBoot\final\turnero-gobierno-u\src\main\java\entity\usuarios.java

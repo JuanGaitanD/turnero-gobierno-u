@@ -1,0 +1,85 @@
+<section class="space-y-6" aria-labelledby="titulo-turnos">
+	<h2 id="titulo-turnos" class="text-2xl font-semibold text-brown-800">Gestión de Turnos</h2>
+	<div class="space-y-2" aria-live="polite">
+		<div *ngIf="loadingPendientes()" class="text-sm text-brown-600">Cargando pendientes...</div>
+		<div *ngIf="loadingAccion()" class="text-sm text-brown-600">Procesando acción...</div>
+		<div *ngIf="error()" class="text-sm bg-brown-500 text-white px-3 py-1 rounded" role="alert">{{ error() }}</div>
+		<div *ngIf="success()" class="text-sm bg-brown-600 text-white px-3 py-1 rounded">{{ success() }}</div>
+	</div>
+
+	<form (ngSubmit)="crearTurno()" #ft="ngForm" class="card space-y-4 max-w-xl" novalidate>
+		<div class="grid grid-cols-2 gap-4">
+			<div class="col-span-2">
+				<label class="block text-sm font-medium mb-1">Usuario</label>
+				<select class="input" name="usuarioId" [(ngModel)]="nuevoTurno.usuarioId" required>
+					<option [value]="0" disabled>Seleccione...</option>
+					<option *ngFor="let u of usuarios()" [value]="u.id">{{ u.nombreCompleto }} ({{ u.dni }})</option>
+				</select>
+			</div>
+			<div class="col-span-2">
+				<label class="block text-sm font-medium mb-1">Servicio</label>
+				<select class="input" name="servicio" [(ngModel)]="nuevoTurno.servicio" required>
+					<option value="tramite_vivienda">Trámite Vivienda</option>
+					<option value="atencion_tributaria">Atención Tributaria</option>
+					<option value="pqrs">PQRS</option>
+				</select>
+			</div>
+		</div>
+		<button class="btn" type="submit" [disabled]="ft.invalid || loadingAccion()">Crear Turno</button>
+	</form>
+
+	<div class="flex gap-4 items-start flex-wrap">
+		<div class="card flex-1 min-w-[300px]">
+			<div class="flex items-center justify-between mb-3">
+				<h3 class="font-semibold text-brown-700">Turnos Pendientes</h3>
+				<button class="btn px-3 py-1" (click)="cargarPendientes()" [disabled]="loadingPendientes()">Refrescar</button>
+			</div>
+			<table class="table text-xs" role="table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Usuario</th>
+						<th>Servicio</th>
+						<th>Prioridad</th>
+						<th>Creación</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let t of pendientes()" role="row">
+						<td>{{ t.numeroTurno }}</td>
+						<td>{{ t.usuarioNombre }}</td>
+						<td>{{ t.servicio }}</td>
+						<td>
+							<span class="px-2 py-0.5 rounded text-white" [ngClass]="{
+								'bg-brown-800': t.prioridad === 3,
+								'bg-brown-600': t.prioridad === 2,
+								'bg-brown-400': t.prioridad === 1
+							}">{{ t.prioridad }}</span>
+						</td>
+						<td>{{ t.fechaCreacion | date:'shortTime' }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="card flex-1 min-w-[280px]">
+			<h3 class="font-semibold text-brown-700 mb-3">Siguiente Turno</h3>
+			<div *ngIf="siguiente(); else noTurno" class="space-y-2">
+				<p><span class="font-medium">Número:</span> {{ siguiente()!.numeroTurno }}</p>
+				<p><span class="font-medium">Usuario:</span> {{ siguiente()!.usuarioNombre }}</p>
+				<p><span class="font-medium">Servicio:</span> {{ siguiente()!.servicio }}</p>
+				<p><span class="font-medium">Prioridad:</span> {{ siguiente()!.prioridad }}</p>
+				<div class="flex gap-2">
+					<button class="btn px-3 py-1" (click)="finalizarTurno()" [disabled]="loadingAccion()">Finalizar</button>
+					<button class="btn px-3 py-1 bg-brown-500 hover:bg-brown-600" (click)="cancelarTurno()" [disabled]="loadingAccion()">Cancelar</button>
+				</div>
+			</div>
+			<ng-template #noTurno>
+				<p class="text-sm text-brown-600">No hay turno en atención.</p>
+			</ng-template>
+			<div class="mt-3">
+				<button class="btn w-full" (click)="obtenerSiguiente()" [disabled]="loadingAccion()">Obtener Siguiente</button>
+			</div>
+		</div>
+	</div>
+</section>

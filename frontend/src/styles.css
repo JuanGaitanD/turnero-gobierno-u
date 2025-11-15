@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fuente base y colores */
+body {
+	@apply bg-brown-50 text-brown-900 font-sans;
+}
+
+.btn {
+	@apply inline-flex items-center gap-2 px-4 py-2 rounded-md bg-brown-600 text-white hover:bg-brown-700 active:bg-brown-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.card {
+	@apply bg-white shadow-sm rounded-lg border border-brown-100 p-4 hover:shadow-md transition-shadow;
+}
+
+.input {
+	@apply w-full px-3 py-2 rounded-md border border-brown-200 focus:outline-none focus:ring-2 focus:ring-brown-400 focus:border-brown-400 bg-brown-50;
+}
+
+.table {
+	@apply w-full text-sm;
+}
+
+.table th {
+	@apply text-left font-semibold px-3 py-2 bg-brown-200;
+}
+
+.table td {
+	@apply px-3 py-2 border-b border-brown-100;
+}
