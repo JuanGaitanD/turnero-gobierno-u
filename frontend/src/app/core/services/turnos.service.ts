@@ -6,6 +6,9 @@ import { Observable, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TurnosService {
+  historial(): Observable<Turno[]> {
+    return this.http.get<Turno[]>(`${this.base}/historial`);
+  }
   private http = inject(HttpClient);
   private base = environment.apiBaseUrl + '/turnos';
 

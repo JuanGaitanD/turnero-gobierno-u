@@ -1,0 +1,35 @@
+<section class="space-y-6" aria-labelledby="titulo-historial">
+  <h2 id="titulo-historial" class="text-2xl font-semibold text-brown-800">Historial de Turnos Atendidos</h2>
+  <div class="space-y-2" aria-live="polite">
+    <div *ngIf="loading()" class="text-sm text-brown-600">Cargando historial...</div>
+    <div *ngIf="error()" class="text-sm bg-brown-500 text-white px-3 py-1 rounded" role="alert">{{ error() }}</div>
+  </div>
+  <table class="table text-xs" role="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Usuario</th>
+        <th>Servicio</th>
+        <th>Prioridad</th>
+        <th>Creación</th>
+        <th>Atendido</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let t of historial()" role="row">
+        <td>{{ t.numeroTurno }}</td>
+        <td>{{ t.usuarioNombre }}</td>
+        <td>{{ t.servicio }}</td>
+        <td>
+          <span class="px-2 py-0.5 rounded text-white" [ngClass]="{
+            'bg-brown-800': t.prioridad === 3,
+            'bg-brown-600': t.prioridad === 2,
+            'bg-brown-400': t.prioridad === 1
+          }">{{ t.prioridad }}</span>
+        </td>
+        <td>{{ t.fechaCreacion | date:'shortTime' }}</td>
+        <td>{{ t.fechaAtencion | date:'shortTime' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</section>

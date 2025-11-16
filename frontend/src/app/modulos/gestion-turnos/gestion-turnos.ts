@@ -83,8 +83,23 @@ export class GestionTurnos {
       },
       error: (err) => {
         console.error('Error al obtener siguiente turno:', err);
-        this.error.set(err.status === 204 ? 'No hay turnos pendientes' : 'Error al obtener siguiente turno');
-        this.siguiente.set(null);
+        console.log('Status:', err.status);
+        console.log('Error body:', err.error);
+        let mensajeError = 'Error al obtener siguiente turno';
+        
+        if (err.status === 204) {
+          mensajeError = 'No hay turnos pendientes';
+        } else if (err.status === 400 && err.error?.message) {
+          // Error de validación del backend (turno ya en atención)
+          mensajeError = err.error.message;
+        } else if (err.status === 500 && err.error?.message) {
+          // Error del servidor con mensaje
+          mensajeError = err.error.message;
+        } else if (err.error?.message) {
+          mensajeError = err.error.message;
+        }
+        
+        this.error.set(mensajeError);
         this.loadingAccion.set(false);
       }
     });

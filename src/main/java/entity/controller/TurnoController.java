@@ -1,5 +1,6 @@
 package entity.controller;
 
+import entity.dto.ErrorResponseDTO;
 import entity.dto.TurnoRequestDTO;
 import entity.dto.TurnoResponseDTO;
 import entity.service.TurnoService;
@@ -26,6 +27,16 @@ import java.util.List;
 @RequestMapping("/api/turnos")
 @RequiredArgsConstructor
 public class TurnoController {
+
+    /**
+     * Obtiene el historial de turnos atendidos
+     * @return Lista de turnos atendidos
+     */
+    @GetMapping("/historial")
+    public ResponseEntity<List<TurnoResponseDTO>> obtenerTurnosAtendidos() {
+        List<TurnoResponseDTO> turnos = turnoService.obtenerTurnosAtendidos();
+        return ResponseEntity.ok(turnos);
+    }
     
     private final TurnoService turnoService;
     
@@ -66,24 +77,32 @@ public class TurnoController {
     
     /**
      * Obtiene el siguiente turno a atender según prioridad
-     * Las prioridades son:
-     * 1. Personas mayores de 60 años (Prioridad 3)
-     * 2. PQRS con más de 10 minutos de espera (Prioridad 3)
-     * 3. PQRS recientes (Prioridad 2)
-     * 4. Resto de servicios (Prioridad 1)
+     * Sistema de prioridades con envejecimiento:
+     * - Prioridad 3: Personas mayores de 60 años (asignada inmediatamente)
+     * - Prioridad 2: PQRS con más de 10 minutos de espera (envejecimiento automático)
+     * - Prioridad 1: Todos los servicios iniciales (PQRS recientes, trámites, atención tributaria)
+     * 
+     * El sistema actualiza automáticamente las prioridades de PQRS antes de seleccionar el siguiente turno.
      * 
      * @return Siguiente turno a atender
      */
     @GetMapping("/siguiente")
-    public ResponseEntity<TurnoResponseDTO> obtenerSiguienteTurno() {
+    public ResponseEntity<?> obtenerSiguienteTurno() {
         try {
             System.out.println("📞 Llamada a /api/turnos/siguiente recibida");
             TurnoResponseDTO turno = turnoService.obtenerSiguienteTurno();
             System.out.println("✅ Turno obtenido: " + turno.getNumeroTurno());
             return ResponseEntity.ok(turno);
         } catch (RuntimeException e) {
-            System.out.println("⚠️ No hay turnos pendientes: " + e.getMessage());
-            return ResponseEntity.noContent().build();
+            System.out.println("⚠️ Error: " + e.getMessage());
+            if (e.getMessage().contains("Ya hay un turno en atención")) {
+                return ResponseEntity.badRequest().body(new ErrorResponseDTO(e.getMessage()));
+            }
+            if (e.getMessage().contains("No hay turnos pendientes")) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponseDTO("Error al obtener siguiente turno"));
         }
     }
     
